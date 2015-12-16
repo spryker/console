@@ -14,7 +14,7 @@ use Symfony\Component\Console\Command\Command;
 /**
  * @method ConsoleConfig getConfig()
  */
-class ConsoleDependencyContainer extends AbstractBusinessFactory
+class ConsoleBusinessFactory extends AbstractBusinessFactory
 {
 
     /**
