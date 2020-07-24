@@ -5,48 +5,26 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace Spryker\Zed\Console\Communication;
+namespace Spryker\Zed\Console\Communication\Bootstrap;
 
-use Spryker\Shared\ApplicationExtension\Dependency\Plugin\BootableApplicationPluginInterface;
-use Spryker\Shared\Kernel\Communication\Application as SprykerApplication;
 use Spryker\Zed\Console\Business\Model\Environment;
 use Spryker\Zed\Kernel\BundleConfigResolverAwareTrait;
-use Spryker\Zed\Kernel\ClassResolver\Facade\FacadeResolver;
-use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
+use Spryker\Zed\Kernel\Communication\FacadeResolverAwareTrait;
+use Spryker\Zed\Kernel\Communication\FactoryResolverAwareTrait;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * @deprecated Will be removed in favor of `\Spryker\Zed\Console\Communication\Bootstrap\ConsoleBootstrap`.
- *
  * @method \Spryker\Zed\Console\ConsoleConfig getConfig()
+ * @method \Spryker\Zed\Console\Communication\ConsoleCommunicationFactory getFactory()
  */
 class ConsoleBootstrap extends Application
 {
     use BundleConfigResolverAwareTrait;
-
-    /**
-     * @var \Spryker\Zed\Console\Business\ConsoleFacadeInterface
-     */
-    protected $facade;
-
-    /**
-     * @var \Spryker\Shared\Kernel\Communication\Application
-     */
-    protected $application;
-
-    /**
-     * @var \Spryker\Shared\ApplicationExtension\Dependency\Plugin\BootableApplicationPluginInterface[]
-     */
-    protected $bootablePlugins = [];
-
-    /**
-     * @var bool
-     */
-    protected $booted = false;
+    use FactoryResolverAwareTrait;
+    use FacadeResolverAwareTrait;
 
     /**
      * @param string $name
@@ -57,15 +35,9 @@ class ConsoleBootstrap extends Application
         Environment::initialize();
 
         parent::__construct($name, $version);
+
         $this->setCatchExceptions($this->getConfig()->shouldCatchExceptions());
         $this->addEventDispatcher();
-
-        $this->application = new SprykerApplication();
-
-        $this->registerServiceProviders();
-        $this->provideApplicationPlugins();
-
-        Pimple::setApplication($this->application);
     }
 
     /**
@@ -73,42 +45,14 @@ class ConsoleBootstrap extends Application
      */
     protected function addEventDispatcher()
     {
-        $eventDispatcher = new EventDispatcher();
-        $eventSubscriber = $this->getFacade()->getEventSubscriber();
+        $eventDispatcher = $this->getFactory()->createEventDispatcher();
+        $eventSubscriber = $this->getFactory()->getEventSubscriber();
+
         foreach ($eventSubscriber as $subscriber) {
             $eventDispatcher->addSubscriber($subscriber);
         }
+
         $this->setDispatcher($eventDispatcher);
-    }
-
-    /**
-     * @return void
-     */
-    private function provideApplicationPlugins(): void
-    {
-        $applicationPlugins = $this->getFacade()->getApplicationPlugins();
-
-        foreach ($applicationPlugins as $applicationPlugin) {
-            $applicationPlugin->provide($this->application);
-
-            if ($applicationPlugin instanceof BootableApplicationPluginInterface) {
-                $this->bootablePlugins[] = $applicationPlugin;
-            }
-        }
-    }
-
-    /**
-     * @deprecated Use {@link \Spryker\Zed\Console\Communication\ConsoleBootstrap::provideApplicationPlugins()} instead.
-     *
-     * @return void
-     */
-    private function registerServiceProviders()
-    {
-        $serviceProviders = $this->getFacade()->getServiceProviders();
-
-        foreach ($serviceProviders as $serviceProvider) {
-            $this->application->register($serviceProvider);
-        }
     }
 
     /**
@@ -118,7 +62,7 @@ class ConsoleBootstrap extends Application
     {
         $commands = parent::getDefaultCommands();
 
-        $locatedCommands = $this->getFacade()->getConsoleCommands();
+        $locatedCommands = $this->getFactory()->getConsoleCommands();
 
         foreach ($locatedCommands as $command) {
             $commands[$command->getName()] = $command;
@@ -142,37 +86,6 @@ class ConsoleBootstrap extends Application
     }
 
     /**
-     * @return \Spryker\Zed\Console\Business\ConsoleFacadeInterface
-     */
-    protected function getFacade()
-    {
-        if ($this->facade === null) {
-            $this->facade = $this->resolveFacade();
-        }
-
-        return $this->facade;
-    }
-
-    /**
-     * @return \Spryker\Zed\Console\Business\ConsoleFacadeInterface
-     */
-    protected function resolveFacade()
-    {
-        /** @var \Spryker\Zed\Console\Business\ConsoleFacadeInterface $facade */
-        $facade = $this->getFacadeResolver()->resolve($this);
-
-        return $facade;
-    }
-
-    /**
-     * @return \Spryker\Zed\Kernel\ClassResolver\Facade\FacadeResolver
-     */
-    protected function getFacadeResolver()
-    {
-        return new FacadeResolver();
-    }
-
-    /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      *
@@ -186,12 +99,9 @@ class ConsoleBootstrap extends Application
             $output->writeln($this->getInfoText());
         }
 
-        $this->application->boot();
-
-        if (!$this->booted) {
-            $this->booted = true;
-            $this->bootPlugins();
-        }
+        $this->getFactory()
+            ->createApplication()
+            ->boot();
 
         if (!$input->hasParameterOption(['--no-pre'], true)) {
             $this->getFacade()->preRun($input, $output);
@@ -207,24 +117,13 @@ class ConsoleBootstrap extends Application
     }
 
     /**
-     * @return void
-     */
-    protected function bootPlugins(): void
-    {
-        foreach ($this->bootablePlugins as $bootablePlugin) {
-            $bootablePlugin->boot($this->application);
-        }
-    }
-
-    /**
      * @return string
      */
     protected function getInfoText()
     {
         return sprintf(
-            '<fg=yellow>Code bucket</fg=yellow>: <info>%s</info> | <fg=yellow>Store</fg=yellow>: <info>%s</info> | <fg=yellow>Environment</fg=yellow>: <info>%s</info>',
-            APPLICATION_CODE_BUCKET !== '' ? APPLICATION_CODE_BUCKET : 'N/A',
-            defined('APPLICATION_STORE') ? APPLICATION_STORE : 'N/A',
+            '<fg=yellow>Store</fg=yellow>: <info>%s</info> | <fg=yellow>Environment</fg=yellow>: <info>%s</info>',
+            APPLICATION_STORE,
             APPLICATION_ENV
         );
     }
