@@ -33,4 +33,24 @@ interface ConsoleConstants
      * @var string
      */
     public const IS_DEBUG_ENABLED = 'CONSOLE:IS_DEBUG_ENABLED';
+
+    /**
+     * Specification:
+     * - Timeout in seconds for the console command with flag --repeatable.
+     *
+     * @api
+     *
+     * @var string
+     */
+    public const MAX_REPEATABLE_EXECUTION_DURATION = 'CONSOLE:MAX_REPEATABLE_EXECUTION_DURATION';
+
+    /**
+     * Specification:
+     * - Minimum duration in seconds for the console command with flag --repeatable.
+     *
+     * @api
+     *
+     * @var string
+     */
+    public const MIN_REPEATABLE_EXECUTION_DURATION = 'CONSOLE:MIN_REPEATABLE_EXECUTION_DURATION';
 }

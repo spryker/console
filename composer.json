@@ -53,6 +53,7 @@
     },
     "bin": [
         "bin/console",
+        "bin/process-console",
         "bin/yves",
         "bin/glue"
     ]
