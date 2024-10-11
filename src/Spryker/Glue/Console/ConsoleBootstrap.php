@@ -13,6 +13,7 @@ use Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver;
 use Spryker\Service\Kernel\Container;
 use Spryker\Shared\ApplicationExtension\Dependency\Plugin\BootableApplicationPluginInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -132,6 +133,9 @@ class ConsoleBootstrap extends Application
         $inputDefinitions->addOption(new InputOption('--no-pre', '', InputOption::VALUE_NONE, 'Will not execute pre run hooks'));
         $inputDefinitions->addOption(new InputOption('--no-post', '', InputOption::VALUE_NONE, 'Will not execute post run hooks'));
         $inputDefinitions->addOption(new InputOption('--quiet-meta', '', InputOption::VALUE_NONE, 'Disables meta output of store and environment'));
+        $inputDefinitions->addOption(new InputOption('--repeatable', '', InputOption::VALUE_OPTIONAL, ''));
+        $inputDefinitions->addOption(new InputOption('--max-duration', '', InputOption::VALUE_OPTIONAL, ''));
+        $inputDefinitions->addOption(new InputOption('--min-duration', '', InputOption::VALUE_OPTIONAL, ''));
 
         return $inputDefinitions;
     }
@@ -243,5 +247,53 @@ class ConsoleBootstrap extends Application
         if (getenv('FORCE_COLOR_MODE')) {
             $output->setDecorated(true);
         }
+    }
+
+
+    /**
+     * @param \Symfony\Component\Console\Command\Command $command
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
+    protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
+    {
+        if (!$input->hasParameterOption('--repeatable')) {
+            return parent::doRunCommand($command, $input, $output);
+        }
+
+        $maxProcessDuration = $input->getParameterOption('--max-duration', $this->getConfig()->getMaxRepeatableExecutionDuration());
+        $minDuration = $input->getParameterOption('--min-duration', $this->getConfig()->getMinRepeatableExecutionDuration());
+        $startProcessTime = $this->microTime();
+
+        do {
+            $startCommandExecutionTime = $this->microTime();
+            $exitCode = parent::doRunCommand(clone $command, clone $input, $output);
+
+            $stopCommandExecutionTime = $this->microTime();
+            $commandExecutionDuration = $stopCommandExecutionTime - $startCommandExecutionTime;
+            $processExecutionDuration = $stopCommandExecutionTime - $startProcessTime;
+
+            if ($minDuration) {
+                usleep((int)(($minDuration - $commandExecutionDuration) * 1e6));
+            }
+
+            $output->writeln('<fg=magenta>Process executed. Timer: ' . $processExecutionDuration . ' Code: ' . $exitCode . '</>');
+
+            if ($exitCode !== 0) {
+                return $exitCode;
+            }
+        } while ($maxProcessDuration > 0 && $processExecutionDuration + $commandExecutionDuration < $maxProcessDuration);
+
+        return $exitCode;
+    }
+
+    /**
+     * @return float
+     */
+    protected function microTime(): float
+    {
+        return microtime(true);
     }
 }
