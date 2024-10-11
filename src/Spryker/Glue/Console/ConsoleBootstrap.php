@@ -275,7 +275,7 @@ class ConsoleBootstrap extends Application
             $commandExecutionDuration = $stopCommandExecutionTime - $startCommandExecutionTime;
             $processExecutionDuration = $stopCommandExecutionTime - $startProcessTime;
 
-            if ($minDuration) {
+            if ($minDuration > $commandExecutionDuration) {
                 usleep((int)(($minDuration - $commandExecutionDuration) * 1e6));
             }
 
