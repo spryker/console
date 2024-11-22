@@ -30,4 +30,24 @@ class ConsoleConfig extends AbstractSharedConfig
     {
         return $this->get(ConsoleConstants::IS_DEBUG_ENABLED, false);
     }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getMaxRepeatableExecutionDuration(): int
+    {
+        return $this->get(ConsoleConstants::MAX_REPEATABLE_EXECUTION_DURATION, 0);
+    }
+
+    /**
+     * @api
+     *
+     * @return int
+     */
+    public function getMinRepeatableExecutionDuration(): int
+    {
+        return $this->get(ConsoleConstants::MIN_REPEATABLE_EXECUTION_DURATION, 1);
+    }
 }
