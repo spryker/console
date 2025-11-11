@@ -72,6 +72,6 @@ class ConsoleConfig extends AbstractBundleConfig
      */
     public function getMinRepeatableExecutionDuration(): int
     {
-        return $this->getSharedConfig()->getMaxRepeatableExecutionDuration();
+        return $this->getSharedConfig()->getMinRepeatableExecutionDuration();
     }
 }

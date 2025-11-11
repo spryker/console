@@ -1,6 +1,7 @@
 {
     "include": {},
     "exclude": {
-        "spryker/symfony": "Now directly using symfony/console"
+        "spryker/symfony": "Now directly using symfony/console",
+        "symfony/framework-bundle": "This is an optional dependency and MUST only be pulled on demand."
     }
 }

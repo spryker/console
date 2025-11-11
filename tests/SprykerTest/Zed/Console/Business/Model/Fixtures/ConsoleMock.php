@@ -18,25 +18,16 @@ use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
  */
 class ConsoleMock extends Console
 {
-    /**
-     * @return \Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory
-     */
     public function getFactory(): AbstractCommunicationFactory
     {
         return parent::getFactory();
     }
 
-    /**
-     * @return \Spryker\Zed\Kernel\Business\AbstractFacade
-     */
     public function getFacade(): AbstractFacade
     {
         return parent::getFacade();
     }
 
-    /**
-     * @return \Spryker\Zed\Kernel\Persistence\AbstractQueryContainer|null
-     */
     public function getQueryContainer(): ?AbstractQueryContainer
     {
         return parent::getQueryContainer();

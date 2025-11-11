@@ -17,6 +17,16 @@ if (!defined('SPRYKER_COMPOSER_INSTALL')) {
 
 require_once SPRYKER_COMPOSER_INSTALL;
 
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Spryker\Glue\Console\ConsoleApplication;
+
+if (class_exists(Application::class)) {
+    $consoleApplication = new ConsoleApplication();
+    $consoleApplication->run();
+
+    return;
+}
+
 use Spryker\Glue\Console\ConsoleBootstrap;
 
 $bootstrap = new ConsoleBootstrap();

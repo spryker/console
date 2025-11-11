@@ -12,7 +12,6 @@ use Spryker\Shared\Kernel\Communication\Application as SprykerApplication;
 use Spryker\Zed\Console\Business\Model\Environment;
 use Spryker\Zed\Kernel\BundleConfigResolverAwareTrait;
 use Spryker\Zed\Kernel\ClassResolver\Facade\FacadeResolver;
-use Spryker\Zed\Kernel\Communication\Plugin\Pimple;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,8 +64,6 @@ class ConsoleBootstrap extends Application
 
         $this->registerServiceProviders();
         $this->provideApplicationPlugins();
-
-        Pimple::setApplication($this->application);
     }
 
     /**

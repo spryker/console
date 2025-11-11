@@ -19,6 +19,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * @deprecated Use `\Spryker\Glue\Console\ConsoleApplication` instead.
+ *
  * @method \Spryker\Glue\Console\ConsoleConfig getConfig()
  */
 class ConsoleBootstrap extends Application

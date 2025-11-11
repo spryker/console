@@ -16,8 +16,6 @@ class ConsoleConfig extends AbstractBundleConfig
 {
     /**
      * @api
-     *
-     * @return bool
      */
     public function shouldCatchExceptions(): bool
     {
@@ -26,11 +24,31 @@ class ConsoleConfig extends AbstractBundleConfig
 
     /**
      * @api
-     *
-     * @return bool
      */
     public function isDebugModeEnabled(): bool
     {
         return $this->getSharedConfig()->isDebugModeEnabled();
+    }
+
+    /**
+     * Specification:
+     * - Returns the maximum duration (in seconds) of repeatable command execution.
+     *
+     * @api
+     */
+    public function getMaxRepeatableExecutionDuration(): int
+    {
+        return $this->getSharedConfig()->getMaxRepeatableExecutionDuration();
+    }
+
+    /**
+     * Specification:
+     * - Returns the minimum duration (in seconds) of repeatable command execution.
+     *
+     * @api
+     */
+    public function getMinRepeatableExecutionDuration(): int
+    {
+        return $this->getSharedConfig()->getMinRepeatableExecutionDuration();
     }
 }

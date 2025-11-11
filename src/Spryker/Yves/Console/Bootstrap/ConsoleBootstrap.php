@@ -17,6 +17,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * @deprecated Use `\Spryker\Yves\Console\ConsoleApplication` instead.
+ *
  * @method \Spryker\Yves\Console\ConsoleConfig getConfig()
  * @method \Spryker\Yves\Console\ConsoleFactory getFactory()
  */
