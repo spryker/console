@@ -46,9 +46,26 @@ abstract class AbstractConsoleApplication extends Application
         $container = $this->getKernel()->getContainer();
 
         if (!$container->has('event_dispatcher')) {
-            throw new ConsoleException(
-                'The EventDispatcher is missing in your Console setup. Add `EventDispatcherApplicationPlugin` to your `ConsoleDependencyProvider::getApplicationPlugins()`.',
-            );
+            $factory = $this->getFactory();
+
+            if (!method_exists($factory, 'createEventDispatcher')) {
+                throw new ConsoleException(
+                    sprintf(
+                        'The EventDispatcher is missing in your Console setup for %s. ' .
+                        'Add the appropriate EventDispatcherApplicationPlugin from the Console namespace ' .
+                        '(e.g., `\\Spryker\\Zed\\EventDispatcher\\Communication\\Plugin\\Console\\EventDispatcherApplicationPlugin` for Zed, ' .
+                        '`\\Spryker\\Yves\\EventDispatcher\\Plugin\\Console\\EventDispatcherApplicationPlugin` for Yves, or ' .
+                        '`\\Spryker\\Glue\\EventDispatcher\\Plugin\\Console\\EventDispatcherApplicationPlugin` for Glue) ' .
+                        'to the plugin stack returned by `ConsoleDependencyProvider::getApplicationPlugins()` method.',
+                        static::class,
+                    ),
+                );
+            }
+
+            // Factory type varies by implementation; method existence already verified above
+            /** @phpstan-ignore method.nonObject */
+            $eventDispatcher = $factory->createEventDispatcher();
+            $container->set('event_dispatcher', $eventDispatcher);
         }
 
         /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventDispatcher */
