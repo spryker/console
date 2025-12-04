@@ -23,8 +23,10 @@ class ConsoleEnvironment
         defined('APPLICATION_VENDOR_DIR')
             || define('APPLICATION_VENDOR_DIR', APPLICATION_ROOT_DIR . '/vendor');
 
+        $applicationName = getenv('GLUE_APPLICATION') ?: 'GLUE';
+
         defined('APPLICATION')
-            || define('APPLICATION', 'GLUE');
+            || define('APPLICATION', $applicationName);
 
         SprykerEnvironment::initialize();
 

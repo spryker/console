@@ -5,16 +5,14 @@
  * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
  */
 
-namespace SprykerTest\Zed\Console\Helper;
+namespace SprykerTest\Shared\Console\Helper;
 
-use SprykerTest\Shared\Console\Helper\ConsoleHelper as SharedConsoleHelper;
+use Codeception\Module;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-/**
- * @deprecated Use {@link \SprykerTest\Shared\Console\Helper\ConsoleHelper} instead.
- */
-class ConsoleHelper extends SharedConsoleHelper
+class ConsoleHelper extends Module
 {
     /**
      * @param \Symfony\Component\Console\Command\Command $command
@@ -23,6 +21,11 @@ class ConsoleHelper extends SharedConsoleHelper
      */
     public function getConsoleTester(Command $command): CommandTester
     {
-        return parent::getConsoleTester($command);
+        $application = new Application();
+        $application->add($command);
+
+        $command = $application->find($command->getName());
+
+        return new CommandTester($command);
     }
 }

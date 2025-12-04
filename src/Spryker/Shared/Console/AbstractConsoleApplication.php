@@ -32,7 +32,7 @@ abstract class AbstractConsoleApplication extends Application
         /** @var \Spryker\Service\Container\ContainerInterface $container */
         $container = $application->getContainer();
 
-        parent::__construct(new Kernel($container, str_contains(APPLICATION_ENV, '.dev')));
+        parent::__construct(new Kernel($container, false /*str_contains(APPLICATION_ENV, '.dev')*/));
 
         if (method_exists($application, 'registerPluginsAndBoot')) {
             $application->registerPluginsAndBoot($container);
