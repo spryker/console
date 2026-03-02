@@ -14,11 +14,6 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ConsoleHelper extends Module
 {
-    /**
-     * @param \Symfony\Component\Console\Command\Command $command
-     *
-     * @return \Symfony\Component\Console\Tester\CommandTester
-     */
     public function getConsoleTester(Command $command): CommandTester
     {
         $application = new Application();

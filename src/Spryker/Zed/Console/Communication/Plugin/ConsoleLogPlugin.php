@@ -72,11 +72,6 @@ class ConsoleLogPlugin implements EventSubscriberInterface
         ), ['exception' => $exception]);
     }
 
-    /**
-     * @param \Symfony\Component\Console\Event\ConsoleEvent $consoleEvent
-     *
-     * @return string
-     */
     protected function getConsoleErrorCommandName(ConsoleEvent $consoleEvent): string
     {
         if ($consoleEvent->getCommand()) {

@@ -51,9 +51,6 @@ class ConsoleBootstrap extends Application
         $this->addEventDispatcher();
     }
 
-    /**
-     * @return void
-     */
     protected function addEventDispatcher(): void
     {
         $eventDispatcher = $this->getFactory()->createEventDispatcher();
@@ -96,12 +93,6 @@ class ConsoleBootstrap extends Application
         return $inputDefinitions;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         $this->setDecorated($output);
@@ -127,9 +118,6 @@ class ConsoleBootstrap extends Application
         return $response;
     }
 
-    /**
-     * @return string
-     */
     protected function getInfoText(): string
     {
         return sprintf(

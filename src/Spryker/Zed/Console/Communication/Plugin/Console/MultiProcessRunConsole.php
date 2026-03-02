@@ -84,9 +84,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
      */
     protected bool $shouldStop = false;
 
-    /**
-     * @return void
-     */
     protected function configure(): void
     {
         $this->setName(static::COMMAND_NAME);
@@ -100,12 +97,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         parent::configure();
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->input = $input;
@@ -115,11 +106,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         return $this->runSubProcess($maxDuration);
     }
 
-    /**
-     * @param int $maxDuration
-     *
-     * @return int
-     */
     protected function runSubProcess(int $maxDuration): int
     {
         $isLimited = $maxDuration > 0;
@@ -148,11 +134,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         return static::CODE_SUCCESS;
     }
 
-    /**
-     * @param string $command
-     *
-     * @return \Symfony\Component\Process\Process
-     */
     protected function createProcess(string $command): Process
     {
         $processTimeout = $this->getSubprocessTimeout();
@@ -166,11 +147,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         );
     }
 
-    /**
-     * @param float $duration
-     *
-     * @return void
-     */
     protected function waitTillMinExecutionTime(float $duration): void
     {
         $minExecutionTime = abs((int)$this->input->getOption(static::OPTION_CHILD_MINIMUM_DURATION_TIME_SECONDS));
@@ -185,9 +161,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         }
     }
 
-    /**
-     * @return int
-     */
     protected function runProcess(): int
     {
         $separateThread = filter_var($this->input->getOption(static::OPTION_SEPARATE_THREAD), FILTER_VALIDATE_BOOLEAN);
@@ -198,9 +171,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         return $this->runCommandDirectly();
     }
 
-    /**
-     * @return int
-     */
     protected function runCommandAsSeparateThread(): int
     {
         $command = $this->input->getArgument(static::ARGUMENT_CONSOLE_CHILD);
@@ -213,9 +183,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         return static::CODE_SUCCESS;
     }
 
-    /**
-     * @return int
-     */
     protected function runCommandDirectly(): int
     {
         $child = $this->input->getArgument(static::ARGUMENT_CONSOLE_CHILD);
@@ -270,9 +237,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         return new ArrayInput($input);
     }
 
-    /**
-     * @return float|null
-     */
     protected function getSubprocessTimeout(): ?float
     {
         $processTimeout = $this->input->getOption(static::OPTION_CHILD_PROCESS_TIMEOUT);
@@ -296,11 +260,6 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         ];
     }
 
-    /**
-     * @param int $signal
-     *
-     * @return int|false
-     */
     public function handleSignal(int $signal): int|false
     {
         $this->shouldStop = true;

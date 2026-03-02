@@ -79,9 +79,6 @@ class ConsoleBootstrap extends Application
         $this->setDispatcher($eventDispatcher);
     }
 
-    /**
-     * @return void
-     */
     private function provideApplicationPlugins(): void
     {
         $applicationPlugins = $this->getFacade()->getApplicationPlugins();
@@ -205,9 +202,6 @@ class ConsoleBootstrap extends Application
         return $response;
     }
 
-    /**
-     * @return void
-     */
     protected function bootPlugins(): void
     {
         foreach ($this->bootablePlugins as $bootablePlugin) {

@@ -40,11 +40,6 @@ class ConsoleDependencyProvider extends AbstractBundleDependencyProvider
      */
     public const PLUGINS_CONSOLE_POST_RUN_HOOK = 'PLUGINS_CONSOLE_POST_RUN_HOOK';
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     public function provideDependencies(Container $container): Container
     {
         $container = $this->addCommands($container);
@@ -55,11 +50,6 @@ class ConsoleDependencyProvider extends AbstractBundleDependencyProvider
         return $container;
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addCommands(Container $container): Container
     {
         $container->set(static::COMMANDS, function (Container $container): array {
@@ -79,11 +69,6 @@ class ConsoleDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addEventSubscriber(Container $container): Container
     {
         $container->set(static::EVENT_SUBSCRIBER, function (Container $container): array {
@@ -103,11 +88,6 @@ class ConsoleDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addConsoleHookPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_CONSOLE_PRE_RUN_HOOK, function (Container $container): array {
@@ -141,11 +121,6 @@ class ConsoleDependencyProvider extends AbstractBundleDependencyProvider
         return [];
     }
 
-    /**
-     * @param \Spryker\Yves\Kernel\Container $container
-     *
-     * @return \Spryker\Yves\Kernel\Container
-     */
     protected function addApplicationPlugins(Container $container): Container
     {
         $container->set(static::PLUGINS_APPLICATION, function (Container $container): array {

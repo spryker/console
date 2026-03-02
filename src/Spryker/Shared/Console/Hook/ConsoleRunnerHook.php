@@ -32,12 +32,6 @@ class ConsoleRunnerHook implements ConsoleRunnerHookInterface
         $this->postHookPlugins = $postHookPlugins;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     public function preRun(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->preHookPlugins as $preHookPlugin) {
@@ -45,12 +39,6 @@ class ConsoleRunnerHook implements ConsoleRunnerHookInterface
         }
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     public function postRun(InputInterface $input, OutputInterface $output): void
     {
         foreach ($this->postHookPlugins as $postHookPlugin) {

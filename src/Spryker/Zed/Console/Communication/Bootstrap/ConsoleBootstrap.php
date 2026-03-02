@@ -125,13 +125,6 @@ class ConsoleBootstrap extends Application
         return $response;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Command\Command $command
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
         if (!$input->hasParameterOption('--repeatable')) {
@@ -172,11 +165,6 @@ class ConsoleBootstrap extends Application
         return $exitCode;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return string
-     */
     protected function getInfoText(InputInterface $input): string
     {
         $infoTextData = [];
@@ -231,11 +219,6 @@ class ConsoleBootstrap extends Application
         }
     }
 
-    /**
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return void
-     */
     protected function printDevVmDeprecationInfoText(OutputInterface $output): void
     {
         if ($this->isDevVmEnv()) {
@@ -246,19 +229,11 @@ class ConsoleBootstrap extends Application
         }
     }
 
-    /**
-     * @return bool
-     */
     protected function isDevVmEnv(): bool
     {
         return getenv('USER') === 'vagrant';
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     *
-     * @return string
-     */
     protected function getStore(InputInterface $input): string
     {
         $store = '';

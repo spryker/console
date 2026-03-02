@@ -39,9 +39,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConsoleTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetCommunicationFactoryShouldReturnInstanceIfSet(): void
     {
         $console = $this->getConsole();
@@ -53,9 +50,6 @@ class ConsoleTest extends Unit
         );
     }
 
-    /**
-     * @return void
-     */
     public function testPreRunPluginsWillExecutesBeforeConsoleCommands(): void
     {
         $container = new Container();
@@ -75,9 +69,6 @@ class ConsoleTest extends Unit
         $consoleFacade->preRun($inputMock, $outputMock);
     }
 
-    /**
-     * @return void
-     */
     public function testPostRunPluginsWillExecutesBeforeConsoleCommands(): void
     {
         $container = new Container();
@@ -97,9 +88,6 @@ class ConsoleTest extends Unit
         $consoleFacade->postRun($inputMock, $outputMock);
     }
 
-    /**
-     * @return void
-     */
     public function testGetQueryContainerShouldReturnNullIfNotSet(): void
     {
         $console = $this->getConsole();
@@ -107,9 +95,6 @@ class ConsoleTest extends Unit
         $this->assertNull($console->getQueryContainer());
     }
 
-    /**
-     * @return void
-     */
     public function testGetQueryContainerShouldReturnInstanceIfSet(): void
     {
         $console = $this->getConsole();
@@ -137,9 +122,6 @@ class ConsoleTest extends Unit
         return $this->getMockBuilder(AbstractQueryContainer::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return \SprykerTest\Zed\Console\Business\Model\Fixtures\ConsoleMock
-     */
     private function getConsole(): ConsoleMock
     {
         return new ConsoleMock('TestCommand');
@@ -167,11 +149,6 @@ class ConsoleTest extends Unit
         return $mock;
     }
 
-    /**
-     * @param \Spryker\Zed\Kernel\Container $container
-     *
-     * @return \Spryker\Zed\Console\Business\ConsoleFacade
-     */
     protected function prepareFacade(Container $container): ConsoleFacade
     {
         $consoleBusinessFactory = new ConsoleBusinessFactory();
@@ -183,9 +160,6 @@ class ConsoleTest extends Unit
         return $consoleFacade;
     }
 
-    /**
-     * @return void
-     */
     public function testDoRunProcessWillExecuteSeveralTimesWhenRepeatableOptionIsTrue(): void
     {
         // Arrange

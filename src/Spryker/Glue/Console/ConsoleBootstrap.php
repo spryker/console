@@ -77,9 +77,6 @@ class ConsoleBootstrap extends Application
         $this->provideApplicationPlugins();
     }
 
-    /**
-     * @return void
-     */
     protected function addEventDispatcher(): void
     {
         $eventDispatcher = $this->getFactory()->createEventDispatcher();
@@ -92,9 +89,6 @@ class ConsoleBootstrap extends Application
         $this->setDispatcher($eventDispatcher);
     }
 
-    /**
-     * @return void
-     */
     private function provideApplicationPlugins(): void
     {
         $applicationPlugins = $this->getFactory()->getApplicationPlugins();
@@ -138,9 +132,6 @@ class ConsoleBootstrap extends Application
         return $inputDefinitions;
     }
 
-    /**
-     * @return \Spryker\Glue\Console\ConsoleFactory
-     */
     protected function getFactory(): ConsoleFactory
     {
         if ($this->factory === null) {
@@ -150,9 +141,6 @@ class ConsoleBootstrap extends Application
         return $this->factory;
     }
 
-    /**
-     * @return \Spryker\Glue\Console\ConsoleFactory
-     */
     protected function resolveFactory(): ConsoleFactory
     {
         /** @var \Spryker\Glue\Console\ConsoleFactory $factory */
@@ -161,20 +149,11 @@ class ConsoleBootstrap extends Application
         return $factory;
     }
 
-    /**
-     * @return \Spryker\Glue\Kernel\ClassResolver\Factory\FactoryResolver
-     */
     protected function getFactoryResolver(): FactoryResolver
     {
         return new FactoryResolver();
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         $this->setDecorated($output);
@@ -205,9 +184,6 @@ class ConsoleBootstrap extends Application
         return $response;
     }
 
-    /**
-     * @return void
-     */
     protected function bootPlugins(): void
     {
         foreach ($this->bootablePlugins as $bootablePlugin) {
@@ -215,9 +191,6 @@ class ConsoleBootstrap extends Application
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getInfoText(): string
     {
         return sprintf(

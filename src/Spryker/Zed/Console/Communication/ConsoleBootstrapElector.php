@@ -24,9 +24,6 @@ class ConsoleBootstrapElector
         Environment::initialize();
     }
 
-    /**
-     * @return bool
-     */
     public function isProjectMigratedToApplicationPlugins(): bool
     {
         $serviceProviders = $this->getFacade()->getServiceProviders();

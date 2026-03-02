@@ -22,17 +22,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ConsoleFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Shared\Application\ApplicationInterface
-     */
     public function createApplication(): ApplicationInterface
     {
         return new Application($this->createServiceContainer(), $this->getApplicationPlugins());
     }
 
-    /**
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     public function createServiceContainer(): ContainerInterface
     {
         return new ContainerProxy(['logger' => null, 'debug' => $this->getConfig()->isDebugModeEnabled(), 'charset' => 'UTF-8']);
@@ -46,9 +40,6 @@ class ConsoleFactory extends AbstractFactory
         return $this->getProvidedDependency(ConsoleDependencyProvider::PLUGINS_APPLICATION);
     }
 
-    /**
-     * @return \Spryker\Shared\Console\Hook\ConsoleRunnerHookInterface
-     */
     public function createConsoleRunnerHook(): ConsoleRunnerHookInterface
     {
         return new ConsoleRunnerHook(
@@ -65,9 +56,6 @@ class ConsoleFactory extends AbstractFactory
         return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
     }
 
-    /**
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
     public function createEventDispatcher(): EventDispatcherInterface
     {
         return new EventDispatcher();

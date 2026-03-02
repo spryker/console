@@ -31,9 +31,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class ConsoleLogPluginTest extends Unit
 {
-    /**
-     * @return void
-     */
     public function testGetSubscribedEventsShouldReturnArray(): void
     {
         $consoleLogPlugin = new ConsoleLogPlugin();
@@ -41,9 +38,6 @@ class ConsoleLogPluginTest extends Unit
         $this->assertIsArray($consoleLogPlugin->getSubscribedEvents());
     }
 
-    /**
-     * @return void
-     */
     public function testOnConsoleCommandShouldCallLogger(): void
     {
         $loggerMock = $this->getLoggerMock();
@@ -55,9 +49,6 @@ class ConsoleLogPluginTest extends Unit
         $consoleLogPlugin->onConsoleCommand($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnConsoleTerminatedShouldCallLogger(): void
     {
         $loggerMock = $this->getLoggerMock();
@@ -69,9 +60,6 @@ class ConsoleLogPluginTest extends Unit
         $consoleLogPlugin->onConsoleTerminate($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnConsoleExceptionShouldCallLogger(): void
     {
         $loggerMock = $this->getLoggerMock();
@@ -83,9 +71,6 @@ class ConsoleLogPluginTest extends Unit
         $consoleLogPlugin->onConsoleError($event);
     }
 
-    /**
-     * @return void
-     */
     public function testOnConsoleExceptionWithoutCommandShouldCallLogger(): void
     {
         $loggerMock = $this->getLoggerMock();

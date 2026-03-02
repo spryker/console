@@ -22,17 +22,11 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ConsoleCommunicationFactory extends AbstractCommunicationFactory
 {
-    /**
-     * @return \Spryker\Shared\Application\ApplicationInterface
-     */
     public function createApplication(): ApplicationInterface
     {
         return new Application($this->createServiceContainer(), $this->getApplicationPlugins());
     }
 
-    /**
-     * @return \Spryker\Service\Container\ContainerInterface
-     */
     public function createServiceContainer(): ContainerInterface
     {
         return new ContainerProxy([
@@ -59,9 +53,6 @@ class ConsoleCommunicationFactory extends AbstractCommunicationFactory
         return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
     }
 
-    /**
-     * @return \Symfony\Component\EventDispatcher\EventDispatcherInterface
-     */
     public function createEventDispatcher(): EventDispatcherInterface
     {
         return new EventDispatcher();
