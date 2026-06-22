@@ -232,8 +232,8 @@ abstract class AbstractConsoleApplication extends Application
     {
         $store = '';
 
-        if ($input->hasParameterOption(['store'], true)) {
-            $store = $input->getParameterOption('store');
+        if ($input->hasParameterOption(['--store'], true)) {
+            $store = (string)$input->getParameterOption('--store');
         }
 
         if (!$store && defined('APPLICATION_STORE')) {
