@@ -11,6 +11,8 @@ use Spryker\Service\Container\ContainerInterface;
 use Spryker\Shared\Application\Application;
 use Spryker\Shared\Application\ApplicationInterface;
 use Spryker\Shared\Kernel\Container\ContainerProxy;
+use Spryker\Zed\Console\Business\CommandCache\ConsoleCommandCache;
+use Spryker\Zed\Console\Business\CommandCache\ConsoleCommandCacheInterface;
 use Spryker\Zed\Console\ConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -22,6 +24,30 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 class ConsoleCommunicationFactory extends AbstractCommunicationFactory
 {
+    /**
+     * @return array<\Symfony\Component\Console\Command\Command>
+     */
+    public function getConsoleCommands(): array
+    {
+        return $this->createConsoleCommandCache()->getCommands();
+    }
+
+    public function createConsoleCommandCache(): ConsoleCommandCacheInterface
+    {
+        return new ConsoleCommandCache(
+            $this->getConfig(),
+            fn (): array => $this->getCommands(),
+        );
+    }
+
+    /**
+     * @return array<\Symfony\Component\Console\Command\Command>
+     */
+    public function getCommands(): array
+    {
+        return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
+    }
+
     public function createApplication(): ApplicationInterface
     {
         return new Application($this->createServiceContainer(), $this->getApplicationPlugins());
@@ -43,14 +69,6 @@ class ConsoleCommunicationFactory extends AbstractCommunicationFactory
     public function getApplicationPlugins(): array
     {
         return $this->getProvidedDependency(ConsoleDependencyProvider::PLUGINS_APPLICATION);
-    }
-
-    /**
-     * @return array<\Symfony\Component\Console\Command\Command>
-     */
-    public function getConsoleCommands(): array
-    {
-        return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
     }
 
     public function createEventDispatcher(): EventDispatcherInterface

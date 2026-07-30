@@ -8,6 +8,8 @@
 namespace Spryker\Zed\Console\Business;
 
 use Spryker\Shared\Console\Hook\ConsoleRunnerHook;
+use Spryker\Zed\Console\Business\CommandCache\ConsoleCommandCache;
+use Spryker\Zed\Console\Business\CommandCache\ConsoleCommandCacheInterface;
 use Spryker\Zed\Console\ConsoleDependencyProvider;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
@@ -17,6 +19,30 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 class ConsoleBusinessFactory extends AbstractBusinessFactory
 {
     /**
+     * @return array<\Symfony\Component\Console\Command\Command>
+     */
+    public function getConsoleCommands(): array
+    {
+        return $this->createConsoleCommandCache()->getCommands();
+    }
+
+    public function createConsoleCommandCache(): ConsoleCommandCacheInterface
+    {
+        return new ConsoleCommandCache(
+            $this->getConfig(),
+            fn (): array => $this->getCommands(),
+        );
+    }
+
+    /**
+     * @return array<\Symfony\Component\Console\Command\Command>
+     */
+    public function getCommands(): array
+    {
+        return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
+    }
+
+    /**
      * @return \Spryker\Shared\Console\Hook\ConsoleRunnerHookInterface
      */
     public function createConsoleRunnerHook()
@@ -25,14 +51,6 @@ class ConsoleBusinessFactory extends AbstractBusinessFactory
             $this->getPreRunHookPlugins(),
             $this->getPostRunHookPlugins(),
         );
-    }
-
-    /**
-     * @return array<\Symfony\Component\Console\Command\Command>
-     */
-    public function getConsoleCommands()
-    {
-        return $this->getProvidedDependency(ConsoleDependencyProvider::COMMANDS);
     }
 
     /**

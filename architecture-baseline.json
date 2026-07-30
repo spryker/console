@@ -1,10 +1,52 @@
 [
     {
+        "fileName": "src/Spryker/Zed/Console/Business/ConsoleFacade.php",
+        "description": "Zed Business Layer - Facade: The class `Spryker\\Zed\\Console\\Business\\ConsoleFacade::preRun()` is using an invalid argument type which violates the rule \"Every Facade should only retrieve native types or transfer objects.\"",
+        "rule": "FacadeArgumentsRule",
+        "ruleset": "Spryker Zed",
+        "priority": "3"
+    },
+    {
+        "fileName": "src/Spryker/Zed/Console/Business/ConsoleFacade.php",
+        "description": "Zed Business Layer - Facade: The class `Spryker\\Zed\\Console\\Business\\ConsoleFacade::preRun()` is using an invalid argument type which violates the rule \"Every Facade should only retrieve native types or transfer objects.\"",
+        "rule": "FacadeArgumentsRule",
+        "ruleset": "Spryker Zed",
+        "priority": "3"
+    },
+    {
+        "fileName": "src/Spryker/Zed/Console/Business/ConsoleFacade.php",
+        "description": "Zed Business Layer - Facade: The class `Spryker\\Zed\\Console\\Business\\ConsoleFacade::postRun()` is using an invalid argument type which violates the rule \"Every Facade should only retrieve native types or transfer objects.\"",
+        "rule": "FacadeArgumentsRule",
+        "ruleset": "Spryker Zed",
+        "priority": "3"
+    },
+    {
+        "fileName": "src/Spryker/Zed/Console/Business/ConsoleFacade.php",
+        "description": "Zed Business Layer - Facade: The class `Spryker\\Zed\\Console\\Business\\ConsoleFacade::postRun()` is using an invalid argument type which violates the rule \"Every Facade should only retrieve native types or transfer objects.\"",
+        "rule": "FacadeArgumentsRule",
+        "ruleset": "Spryker Zed",
+        "priority": "3"
+    },
+    {
+        "fileName": "src/Spryker/Zed/Console/Business/Model/Environment.php",
+        "description": "Zed Business - Directory: The class `Spryker\\Zed\\Console\\Business\\Model\\Environment` is inside a Model namespace which violates rule \"Business models must not be in a Model directory/namespace.\"",
+        "rule": "ZedBusinessDirectoryNoModelRule",
+        "ruleset": "Spryker Zed",
+        "priority": "3"
+    },
+    {
         "fileName": "src/Spryker/Zed/Console/Communication/Bootstrap/ConsoleBootstrap.php",
         "description": "Method `Spryker\\Zed\\Console\\Communication\\Bootstrap\\ConsoleBootstrap::doRun()` must have return type.",
         "rule": "ExternalMethodExtensionReturnTypeRule",
         "ruleset": "Spryker",
         "priority": "1"
+    },
+    {
+        "fileName": "src/Spryker/Zed/Console/Communication/Plugin/ConsoleLogPlugin.php",
+        "description": "Plugin: The plugin class implements Symfony\\Component\\EventDispatcher interface without participation of Extension module which violates rule \"A plugin class must implement a ModuleExtension's interface instead of implementing an extension interface of Module\"",
+        "rule": "NewPluginExtensionModuleRule",
+        "ruleset": "Spryker",
+        "priority": "3"
     },
     {
         "fileName": "src/Spryker/Zed/Console/Communication/Plugin/ConsoleLogPlugin.php",
