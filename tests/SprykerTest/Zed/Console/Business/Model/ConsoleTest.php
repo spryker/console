@@ -214,7 +214,6 @@ class ConsoleTest extends Unit
         $reflection = new ReflectionClassReflectionClass(get_class($object));
 
         $method = $reflection->getMethod('doRunCommand');
-        $method->setAccessible(true);
 
         return $method->invokeArgs($object, $methodParameters);
     }
