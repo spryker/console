@@ -260,7 +260,7 @@ class MultiProcessRunConsole extends Console implements SignalableCommandInterfa
         ];
     }
 
-    public function handleSignal(int $signal): int|false
+    public function handleSignal(int $signal, int|false $previousExitCode = 0): int|false
     {
         $this->shouldStop = true;
         if ($this->output->isVerbose()) {
